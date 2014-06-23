@@ -12,6 +12,21 @@
 // Exit if accessed directly
 defined( 'WPINC' ) or die;
 
+/**
+ * Used by hook: 'customize_preview_init'
+ *
+ * @see add_action('customize_preview_init',$func)
+ */
+function genlogo_enqueue_customizer_assets() {
+	wp_enqueue_script(
+		'genlogo-customizer',
+		GENLOGO_URL . 'assets/js/customizer.js',
+		array( 'customize-loader', 'jquery' )
+	);
+}
+add_action( 'customize_controls_enqueue_scripts', 'genlogo_enqueue_customizer_assets' );
+
+
 add_action( 'wp_head', 'genlogo_head_css' );
 /**
  * Output custom CSS to control the look of the genesis simple logo in the <head>.
