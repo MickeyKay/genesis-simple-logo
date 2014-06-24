@@ -109,7 +109,7 @@ function genlogo_update_settings( $new = '', $setting = 'genlogo-settings' ) {
 
 }
 
-add_action( 'customize_save_after', 'genlogo_reset_image_dimensions' );
+add_action( 'customize_preview_init', 'genlogo_reset_image_dimensions' );
 /**
  * Clear out the width and height settings when the current logo is removed.
  *
@@ -130,7 +130,7 @@ function genlogo_reset_image_dimensions() {
 	) );
 }
 
-add_action( 'customize_save_after', 'genlogo_get_image_dimensions' );
+add_action( 'customize_preview_init', 'genlogo_get_image_dimensions' );
 /**
  * Get the dimensions of the current image and use them as the default width and height options.
  *
