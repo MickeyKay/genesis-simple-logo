@@ -78,6 +78,7 @@ class Genesis_Simple_Logo_Settings extends Genesis_Admin_Boxes {
 			)
 		);
 	}
+
 	/**
 	 * Register Metabox for the Genesis Simple Logo.
 	 *

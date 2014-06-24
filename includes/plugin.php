@@ -20,7 +20,7 @@ class Genesis_Genesis_Simple_Logo {
 	 * @since   1.0.0
 	 * @var     string
 	 */
-	const VERSION = '1.0.0';
+	const VERSION = '1.0.1';
 
 	/**
 	 * Unique identifier for the Genesis Simple Logo plugin.
@@ -97,6 +97,11 @@ class Genesis_Genesis_Simple_Logo {
 		}
 	}
 
+	/**
+	 * Deactivate the plugin if the parent theme isn't Genesis.
+	 *
+	 * @since    1.0.1
+	 */
 	function deactivate_if_not_genesis(){
 		$theme_info = wp_get_theme();
 
