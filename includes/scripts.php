@@ -12,20 +12,19 @@
 // Exit if accessed directly
 defined( 'WPINC' ) or die;
 
+add_action( 'customize_controls_enqueue_scripts', 'genlogo_enqueue_customizer_assets' );
 /**
- * Used by hook: 'customize_preview_init'
+ * Add customimzer JS to live-refresh controls when logos are added or removed.
  *
  * @see add_action('customize_preview_init',$func)
  */
 function genlogo_enqueue_customizer_assets() {
 	wp_enqueue_script(
 		'genlogo-customizer',
-		GENLOGO_URL . 'assets/js/customizer.js',
+		GENLOGO_URL . 'assets/js/genlogo-customizer.js',
 		array( 'customize-loader', 'jquery' )
 	);
 }
-add_action( 'customize_controls_enqueue_scripts', 'genlogo_enqueue_customizer_assets' );
-
 
 add_action( 'wp_head', 'genlogo_head_css' );
 /**
@@ -49,6 +48,7 @@ function genlogo_head_css() {
 	.header-image .site-title,
 	.header-image .site-title > a {
 		<?php echo $height; ?>
+		max-width: 100%;
 	}
 
 	.header-image .title-area {
