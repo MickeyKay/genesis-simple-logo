@@ -43,7 +43,7 @@ unset( $_genlogo_dir );
 
 // Handy function for grabbing the plugin instance
 function genesis_simple_logo() {
-	return new Genesis_Genesis_Simple_Logo;
+	return Genesis_Simple_Logo::get_instance();
 }
 
 // Initialize the plugin

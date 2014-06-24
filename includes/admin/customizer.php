@@ -145,7 +145,7 @@ class Genesis_Simple_Logo_Customizer extends Genesis_Customizer_Base {
 
 	private function logo( $wp_customize ) {
 
-		$settings = genlogo_get_data();
+		$settings = Genesis_Simple_Logo_Core::get_data();
 
 		$wp_customize->add_section(
 			'genlogo_custom_logo',

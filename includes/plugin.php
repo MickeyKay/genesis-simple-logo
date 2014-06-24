@@ -12,7 +12,7 @@
 // Exit if accessed directly
 defined( 'WPINC' ) or die;
 
-class Genesis_Genesis_Simple_Logo {
+class Genesis_Simple_Logo {
 
 	/**
 	 * Plugin version, used for cache-busting of style and script file references.
@@ -40,6 +40,23 @@ class Genesis_Genesis_Simple_Logo {
 	protected static $instance = null;
 
 	/**
+	* Return an instance of this class.
+	*
+	* @since 1.0.0
+	*
+	* @return object A single instance of this class.
+	*/
+	public static function get_instance() {
+
+		// If the single instance hasn't been set, set it now.
+		if ( null == self::$instance ) {
+			self::$instance = new self;
+		}
+
+		return self::$instance;
+	}
+
+	/**
 	 * Initialize the plugin by setting localization and loading public scripts
 	 * and styles.
 	 *
@@ -48,7 +65,6 @@ class Genesis_Genesis_Simple_Logo {
 	function __construct() {
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
-		add_action( 'after_switch_theme', array( $this, 'deactivate_if_not_genesis' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_plugin' ) );
 	}
 
@@ -60,6 +76,9 @@ class Genesis_Genesis_Simple_Logo {
 	public function load_plugin() {
 		self::define_constants();
 		self::includes();
+		new Genesis_Simple_Logo_Core;
+		new Genesis_Simple_Logo_Hooks;
+		new Genesis_Simple_Logo_Scripts;
 	}
 
 	/**
@@ -68,13 +87,11 @@ class Genesis_Genesis_Simple_Logo {
 	 * @since    1.0.0
 	 */
 	public function load_plugin_textdomain() {
-
 		$domain = $this->plugin_slug;
 		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 
 		load_textdomain( $domain, trailingslashit( WP_LANG_DIR ) . $domain . '/' . $domain . '-' . $locale . '.mo' );
 		load_plugin_textdomain( $domain, FALSE, basename( plugin_dir_path( dirname( __FILE__ ) ) ) . '/languages/' );
-
 	}
 
 	/**
@@ -98,34 +115,16 @@ class Genesis_Genesis_Simple_Logo {
 	}
 
 	/**
-	 * Deactivate the plugin if the parent theme isn't Genesis.
-	 *
-	 * @since    1.0.1
-	 */
-	function deactivate_if_not_genesis(){
-		$theme_info = wp_get_theme();
-
-		$genesis_flavors = array(
-			'genesis',
-			'genesis-trunk',
-		);
-
-		if ( ! in_array( $theme_info->Template, $genesis_flavors ) ) {
-			deactivate_plugins( GENLOGO_FILE ); // Deactivate ourself
-			//wp_die('Sorry, you can\'t activate unless you have installed <a href="http://www.studiopress.com/themes/genesis">Genesis</a>');
-		}
-	}
-
-	/**
 	 * Include functions and libraries.
 	 *
 	 *  @since    1.0.0
 	 */
 	public function includes() {
-		require_once( GENLOGO_DIR . 'includes/functions.php' );
+		require_once( GENLOGO_DIR . 'includes/core.php' );
+		require_once( GENLOGO_DIR . 'includes/hooks.php' );
 		require_once( GENLOGO_DIR . 'includes/scripts.php' );
 		if ( is_admin() ) {
-			require_once( GENLOGO_DIR . 'includes/admin/functions.php' );
+			require_once( GENLOGO_DIR . 'includes/admin/admin-core.php' );
 		}
 		// Include some files after Genesis to avoid conflicts.
 		add_action( 'genesis_setup', array( $this, 'include_after_genesis' ) );
@@ -137,7 +136,7 @@ class Genesis_Genesis_Simple_Logo {
 	 * @since    1.0.0
 	 */
 	public function include_after_genesis() {
-		if ( genlogo_is_customizer() ) {
+		if ( Genesis_Simple_Logo_Core::is_customizer() ) {
 			require_once( GENLOGO_DIR . 'includes/admin/customizer.php' );
 		}
 		if ( is_admin() ) {
