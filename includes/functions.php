@@ -75,26 +75,30 @@ function genlogo_has_logo() {
 }
 
 add_action( 'genesis_meta', 'genlogo_force_image' );
-
 /**
  * Display the genesis simple logo content based on user input.
+ *
+ * @uses   genesis_pre_get_option_
+ * @since  1.0.1
+ */
+function genlogo_force_image() {
+	// Force Image Title.
+	add_filter( 'genesis_pre_get_option_blog_title', 'genlogo_force_title' );
+}
+
+/**
+ * Force the image title option if a logo has been added, or the text option if not.
  *
  * @uses   genlogo_has_logo()
  * @since  1.0.1
  */
-function genlogo_force_image() {
-	// Do nothing if the user hasn't added a logo.
-	if ( ! genlogo_has_logo() ) {
-		return;
+function genlogo_force_title( $title ) {
+	$title = 'text';
+	if ( genlogo_has_logo() ) {
+		$title = 'image';
 	}
-	// Force Image Title.
-	add_filter( 'genesis_pre_get_option_blog_title', 'genlogo_image_title' );
+	return $title;
 }
-
-function genlogo_image_title() {
-	return 'image';
-}
-
 /**
  * Takes an array of new settings, merges them with the old settings, and pushes them into the database.
  *
@@ -104,9 +108,7 @@ function genlogo_image_title() {
  * @param string       $setting Optional. Settings field name. Default is genlogo-settings.
  */
 function genlogo_update_settings( $new = '', $setting = 'genlogo-settings' ) {
-
 	return update_option( $setting, wp_parse_args( $new, get_option( $setting ) ) );
-
 }
 
 add_action( 'customize_preview_init', 'genlogo_reset_image_dimensions' );
