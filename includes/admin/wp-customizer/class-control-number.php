@@ -1,6 +1,6 @@
 <?php
 /**
- * Genesis Simple Logo Customizer Options.
+ * Genesis_Simple_Logo_Customize_Number_Control Class.
  *
  * @package      Genesis Simple Logo
  * @author       Robert Neu http://flagshipwp.com
@@ -21,7 +21,7 @@ if ( ! class_exists( 'WP_Customize_Control' ) ) {
 /**
  * Creates Customizer control for input[type=number] field
  *
- * @since	Theme_Customizer_Boilerplate 1.0
+ * @since	1.0.2
  */
 class Genesis_Simple_Logo_Customize_Number_Control extends WP_Customize_Control {
 

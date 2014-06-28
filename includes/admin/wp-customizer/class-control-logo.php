@@ -1,6 +1,6 @@
 <?php
 /**
- * Genesis Simple Logo Customizer Options.
+ * Customize Genesis Simple Logo Class
  *
  * @package      Genesis Simple Logo
  * @author       Robert Neu http://flagshipwp.com
@@ -18,16 +18,16 @@ if ( ! class_exists( 'WP_Customize_Image_Control' ) ) {
 }
 
 /**
- * Customize Image Reloaded Class
+ * Customize Genesis Simple Logo Class
  *
  * Extend WP_Customize_Image_Control allowing access to uploads made within
- * the same context
+ * the same context.
  */
 class Genesis_Simple_Logo_Image_Control extends WP_Customize_Image_Control {
 	/**
 	 * Constructor.
 	 *
-	 * @since 3.4.0
+	 * @since 1.0.2
 	 * @uses WP_Customize_Image_Control::__construct()
 	 *
 	 * @param WP_Customize_Manager $manager
@@ -40,7 +40,7 @@ class Genesis_Simple_Logo_Image_Control extends WP_Customize_Image_Control {
 	 * Search for images within the defined context
 	 */
 	public function tab_uploaded() {
-		$my_context_uploads = get_posts( array(
+		$simple_logos = get_posts( array(
 		    'post_type'  => 'attachment',
 		    'meta_key'   => '_wp_attachment_context',
 		    'meta_value' => $this->context,
@@ -52,11 +52,12 @@ class Genesis_Simple_Logo_Image_Control extends WP_Customize_Image_Control {
 		<div class="uploaded-target"></div>
 
 		<?php
-		if ( empty( $my_context_uploads ) )
+		if ( empty( $simple_logos ) ) {
 		    return;
+		}
 
-		foreach ( (array) $my_context_uploads as $my_context_upload ) {
-		    $this->print_tab_image( esc_url_raw( $my_context_upload->guid ) );
+		foreach ( (array) $simple_logos as $simple_logo ) {
+		    $this->print_tab_image( esc_url_raw( $simple_logo->guid ) );
 		}
 	}
 }
