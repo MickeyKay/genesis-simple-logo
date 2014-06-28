@@ -68,7 +68,7 @@ function genlogo_get_data() {
  */
 function genlogo_has_logo() {
 	$settings = genlogo_get_data();
-	if ( $settings['logo'] ) {
+	if ( ! empty( $settings['logo'] ) ) {
 		return true;
 	}
 	return false;
@@ -149,7 +149,7 @@ function genlogo_get_image_dimensions() {
 	}
 	$settings = genlogo_get_data();
 	// End here if the user has alrady defined height or width settings.
-	if ($settings['height'] || $settings['width'] ) {
+	if ( ! empty( $settings['height'] ) || ! empty( $settings['width'] ) ) {
 		return;
 	}
 	// Get the dimensions of the current logo.
