@@ -20,7 +20,7 @@ class Genesis_Genesis_Simple_Logo {
 	 * @since   1.0.0
 	 * @var     string
 	 */
-	const VERSION = '1.0.2';
+	const VERSION = '1.0.3';
 
 	/**
 	 * Unique identifier for the Genesis Simple Logo plugin.
@@ -83,7 +83,7 @@ class Genesis_Genesis_Simple_Logo {
 	public function define_constants() {
 		// Plugin root file.
 		if ( ! defined( 'GENLOGO_FILE' ) ) {
-			define( 'GENLOGO_FILE', dirname( dirname( __FILE__ ) ) . '/genesis-simple-logo.php' );
+			define( 'GENLOGO_FILE', plugin_dir_path( dirname( __FILE__ ) ) . 'genesis-simple-logo.php' );
 		}
 		// Plugin directory URL.
 		if ( ! defined( 'GENLOGO_URL' ) ) {
