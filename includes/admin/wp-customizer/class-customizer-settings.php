@@ -1,6 +1,6 @@
 <?php
 /**
- * Genesis Simple Logo Customizer Options.
+ * Genesis Simple Logo Customizer Class.
  *
  * @package      Genesis Simple Logo
  * @author       Robert Neu http://flagshipwp.com
@@ -57,7 +57,7 @@ class Genesis_Simple_Logo_Customizer extends Genesis_Customizer_Base {
 				$wp_customize,
 				'genlogo_logo',
 				array(
-					'label'    => __( 'Upload a logo', 'genlogo' ),
+					'label'    => __( 'Upload a logo. Choose an image less than 400px wide for the best results.', 'genlogo' ),
 					'section'  => 'genlogo_custom_logo',
 					'settings' => $this->get_field_name( 'genlogo_logo' ),
 					'context'  => 'genlogo_logo',
@@ -109,5 +109,50 @@ class Genesis_Simple_Logo_Customizer extends Genesis_Customizer_Base {
 				)
 			)
 		);
+
+		$wp_customize->add_setting(
+			$this->get_field_name( 'genlogo_margin_vertical' ),
+			array(
+				'default'    => $settings['margin_vertical'],
+				'capability' => 'edit_theme_options',
+				'type'       => 'option',
+			)
+		);
+
+		$wp_customize->add_control(
+			new Genesis_Simple_Logo_Customize_Number_Control(
+				$wp_customize,
+				'genlogo_margin_vertical',
+				array(
+					'label'    => __( 'Set Top & Bottom Margins', 'genlogo' ),
+					'section'  => 'genlogo_custom_logo',
+					'settings' => $this->get_field_name( 'genlogo_margin_vertical' ),
+					'priority' => $this->control_priority++,
+				)
+			)
+		);
+
+		$wp_customize->add_setting(
+			$this->get_field_name( 'genlogo_margin_horizontal' ),
+			array(
+				'default'    => $settings['margin_horizontal'],
+				'capability' => 'edit_theme_options',
+				'type'       => 'option',
+			)
+		);
+
+		$wp_customize->add_control(
+			new Genesis_Simple_Logo_Customize_Number_Control(
+				$wp_customize,
+				'genlogo_margin_horizontal',
+				array(
+					'label'    => __( 'Set Left & Right Margins', 'genlogo' ),
+					'section'  => 'genlogo_custom_logo',
+					'settings' => $this->get_field_name( 'genlogo_margin_horizontal' ),
+					'priority' => $this->control_priority++,
+				)
+			)
+		);
 	}
+
 }

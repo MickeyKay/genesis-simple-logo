@@ -52,9 +52,11 @@ function genlogo_get_option( $option, $use_cache = true ) {
  */
 function genlogo_get_data() {
 	$settings = array(
-		'logo'   => genlogo_get_option( 'genlogo_logo' ),
-		'height' => genlogo_get_option( 'genlogo_height' ),
-		'width'  => genlogo_get_option( 'genlogo_width' ),
+		'logo'              => genlogo_get_option( 'genlogo_logo' ),
+		'height'            => genlogo_get_option( 'genlogo_height' ),
+		'width'             => genlogo_get_option( 'genlogo_width' ),
+		'margin_vertical'   => genlogo_get_option( 'genlogo_margin_vertical' ),
+		'margin_horizontal' => genlogo_get_option( 'genlogo_margin_horizontal' ),
 	);
 	return $settings;
 }
@@ -168,7 +170,7 @@ function genlogo_add_simple_logo_support() {
 		return;
 	}
 	add_theme_support( 'genesis-simple-logo' );
-	//add_image_size( $name, $width, $height, $crop );
+	add_image_size( 'genesis-simple-logo', 500 );
 }
 
 add_action( 'after_setup_theme', 'genlogo_remove_custom_header_support', 20 );
