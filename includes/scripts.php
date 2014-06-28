@@ -59,7 +59,7 @@ function genlogo_head_css() {
 	}
 
 	.header-image .site-header,
-	.header-image .site-header .site-header .wrap,
+	.header-image .site-header .wrap,
 	.header-image .site-header.title-area,
 	.header-image .site-header .site-title,
 	.header-image .site-header .site-title > a {
