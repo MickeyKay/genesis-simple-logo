@@ -31,8 +31,8 @@ class Genesis_Simple_Logo_Settings extends Genesis_Admin_Boxes {
 		$menu_ops = array(
 			'submenu' => array(
 				'parent_slug' => 'genesis',
-				'page_title'  => __( 'Genesis Simple Logo', 'genlogo' ),
-				'menu_title'  => __( 'Add Logo', 'genlogo' )
+				'page_title'  => __( 'Genesis Simple Logo', 'genesis-simple-logo' ),
+				'menu_title'  => __( 'Add Logo', 'genesis-simple-logo' )
 			)
 		);
 		$page_ops = array(); //* use defaults
@@ -103,10 +103,10 @@ class Genesis_Simple_Logo_Settings extends Genesis_Admin_Boxes {
 	function settings_box() {
 		$customizer_link = wp_customize_url( get_stylesheet() );
 		echo '<p>';
-			_e( 'You can upload a logo and select the height and width by using the WordPress customizer.', 'genlogo' );
+			_e( 'You can upload a logo and select the height and width by using the WordPress customizer.', 'genesis-simple-logo' );
 		echo '</p>';
 		echo '<p>';
-			echo '<a class="button" href="' . $customizer_link . '">' . __( 'Add Logo Now', 'genlogo' ) . '</a>';
+			echo '<a class="button" href="' . $customizer_link . '">' . __( 'Add Logo Now', 'genesis-simple-logo' ) . '</a>';
 		echo '</p>';
 	}
 }

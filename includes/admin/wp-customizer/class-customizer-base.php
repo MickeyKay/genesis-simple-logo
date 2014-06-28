@@ -31,7 +31,7 @@ abstract class Genesis_Customizer_Base {
 		if ( method_exists( $this, 'register' ) ) {
 			add_action( 'customize_register', array( $this, 'register'), 15 );
 		} else {
-			_doing_it_wrong( 'Genesis_Customizer_Base', __( 'When extending Genesis_Customizer_Base, you must create a register method.', 'genlogo' ) );
+			_doing_it_wrong( 'Genesis_Customizer_Base', __( 'When extending Genesis_Customizer_Base, you must create a register method.', 'genesis-simple-logo' ) );
 		}
 
 		//* Customizer scripts

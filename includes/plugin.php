@@ -20,7 +20,7 @@ class Genesis_Genesis_Simple_Logo {
 	 * @since   1.0.0
 	 * @var     string
 	 */
-	const VERSION = '1.0.3';
+	const VERSION = '1.0.4';
 
 	/**
 	 * Unique identifier for the Genesis Simple Logo plugin.
@@ -29,7 +29,7 @@ class Genesis_Genesis_Simple_Logo {
 	 * @since    1.0.0
 	 * @var      string
 	 */
-	protected $plugin_slug = 'genlogo';
+	protected $plugin_slug = 'genesis-simple-logo';
 
 	/**
 	 * Instance of this class.
@@ -45,7 +45,7 @@ class Genesis_Genesis_Simple_Logo {
 	 *
 	 * @since     1.0.0
 	 */
-	function __construct() {
+	function run() {
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_plugin' ) );
