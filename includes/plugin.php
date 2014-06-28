@@ -20,7 +20,7 @@ class Genesis_Genesis_Simple_Logo {
 	 * @since   1.0.0
 	 * @var     string
 	 */
-	const VERSION = '1.0.1';
+	const VERSION = '1.0.2';
 
 	/**
 	 * Unique identifier for the Genesis Simple Logo plugin.
@@ -48,7 +48,6 @@ class Genesis_Genesis_Simple_Logo {
 	function __construct() {
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
-		add_action( 'after_switch_theme', array( $this, 'deactivate_if_not_genesis' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_plugin' ) );
 	}
 
@@ -60,6 +59,7 @@ class Genesis_Genesis_Simple_Logo {
 	public function load_plugin() {
 		self::define_constants();
 		self::includes();
+		add_action( 'after_switch_theme', array( $this, 'deactivate_if_not_genesis' ) );
 	}
 
 	/**
@@ -68,13 +68,11 @@ class Genesis_Genesis_Simple_Logo {
 	 * @since    1.0.0
 	 */
 	public function load_plugin_textdomain() {
-
 		$domain = $this->plugin_slug;
 		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 
 		load_textdomain( $domain, trailingslashit( WP_LANG_DIR ) . $domain . '/' . $domain . '-' . $locale . '.mo' );
 		load_plugin_textdomain( $domain, FALSE, basename( plugin_dir_path( dirname( __FILE__ ) ) ) . '/languages/' );
-
 	}
 
 	/**
@@ -94,25 +92,6 @@ class Genesis_Genesis_Simple_Logo {
 		// Plugin directory path.
 		if ( ! defined( 'GENLOGO_DIR' ) ) {
 			define( 'GENLOGO_DIR', plugin_dir_path( GENLOGO_FILE ) );
-		}
-	}
-
-	/**
-	 * Deactivate the plugin if the parent theme isn't Genesis.
-	 *
-	 * @since    1.0.1
-	 */
-	function deactivate_if_not_genesis(){
-		$theme_info = wp_get_theme();
-
-		$genesis_flavors = array(
-			'genesis',
-			'genesis-trunk',
-		);
-
-		if ( ! in_array( $theme_info->Template, $genesis_flavors ) ) {
-			deactivate_plugins( GENLOGO_FILE ); // Deactivate ourself
-			//wp_die('Sorry, you can\'t activate unless you have installed <a href="http://www.studiopress.com/themes/genesis">Genesis</a>');
 		}
 	}
 
@@ -138,10 +117,55 @@ class Genesis_Genesis_Simple_Logo {
 	 */
 	public function include_after_genesis() {
 		if ( genlogo_is_customizer() ) {
-			require_once( GENLOGO_DIR . 'includes/admin/customizer.php' );
+			foreach ( glob( GENLOGO_DIR . 'includes/admin/wp-customizer/*.php' ) as $file ) {
+				require_once( $file );
+			}
 		}
 		if ( is_admin() ) {
 			require_once( GENLOGO_DIR . 'includes/admin/class-settings.php' );
+		}
+	}
+
+	/**
+	 * Deactivate the plugin if the parent theme isn't Genesis.
+	 *
+	 * @since    1.0.1
+	 */
+	function deactivate_if_not_genesis() {
+		add_action( 'admin_init', array( $this, 'maybe_deactivate' ) );
+		add_action( 'admin_notices', array( $this, 'maybe_show_deactivate_notice' ) );
+	}
+
+	function is_genesis() {
+		$theme_info = wp_get_theme();
+
+		$genesis_flavors = array(
+			'genesis',
+			'genesis-trunk',
+		);
+
+		if ( in_array( $theme_info->Template, $genesis_flavors ) ) {
+			return true;
+		}
+		return false;
+	}
+
+	function maybe_deactivate() {
+		if ( $this->is_genesis() ) {
+			return;
+		}
+		deactivate_plugins( GENLOGO_FILE );
+	}
+
+	function maybe_show_deactivate_notice() {
+		if ( $this->is_genesis() ) {
+			return;
+		}
+		echo '<div class="updated">';
+			echo '<p><strong>Genesis Simple Logo</strong> requires the Genesis Framework. The plugin has been <strong>deactivated</strong>.</p>';
+		echo '</div>';
+		if ( isset( $_GET['activate'] ) ) {
+			unset( $_GET['activate'] );
 		}
 	}
 }
