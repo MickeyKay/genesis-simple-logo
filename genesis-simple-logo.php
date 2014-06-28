@@ -5,9 +5,12 @@ Description: Lets you easily add a logo to your Genesis website using the WordPr
 Version: 1.0.4
 License: GPL version 2 or any later version
 Plugin URI: http://flagshipwp.com/plugins/genesis-simple-logo/
+Git URI: https://github.com/wpbacon/genesis-simple-logo
 Author: Flagship
 Author URI: http://flagshipwp.com/
 Text Domain: genesis-simple-logo
+GitHub Plugin URI: https://github.com/wpbacon/genesis-simple-logo
+GitHub Branch: master
 
 ==========================================================================
 
