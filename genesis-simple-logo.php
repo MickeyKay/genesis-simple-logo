@@ -2,12 +2,15 @@
 /*
 Plugin Name: Genesis Simple Logo
 Description: Lets you easily add a logo to your Genesis website using the WordPress customizer.
-Version: 1.0.3
+Version: 1.0.5
 License: GPL version 2 or any later version
 Plugin URI: http://flagshipwp.com/plugins/genesis-simple-logo/
+Git URI: https://github.com/wpbacon/genesis-simple-logo
 Author: Flagship
 Author URI: http://flagshipwp.com/
-Text Domain: genlogo
+Text Domain: genesis-simple-logo
+GitHub Plugin URI: https://github.com/wpbacon/genesis-simple-logo
+GitHub Branch: master
 
 ==========================================================================
 
@@ -31,20 +34,20 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 // Exit if accessed directly
 defined( 'WPINC' ) or die;
 
-// Grab this directory
+// Grab this directory.
 $_genlogo_dir = plugin_dir_path( __FILE__ );
 
 // Include our core plugin files.
 include( $_genlogo_dir . 'includes/install.php' );
 include( $_genlogo_dir . 'includes/plugin.php' );
 
-// Clean up
+// Clean up.
 unset( $_genlogo_dir );
 
-// Handy function for grabbing the plugin instance
+// Handy function for grabbing the plugin instance.
 function genesis_simple_logo() {
 	return new Genesis_Genesis_Simple_Logo;
 }
 
-// Initialize the plugin
-genesis_simple_logo();
+// Initialize the plugin.
+genesis_simple_logo()->run();

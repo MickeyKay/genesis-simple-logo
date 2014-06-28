@@ -38,7 +38,7 @@ add_filter( 'plugin_action_links_' .  plugin_basename( GENLOGO_FILE ), 'genlogo_
  */
 function genlogo_add_settings_link( $links ) {
 	$customizer_link = wp_customize_url( get_stylesheet() );
-    $settings_link = '<a href="' . $customizer_link . '">' . __( 'Customize', 'genlogo' ) . '</a>';
+    $settings_link = '<a href="' . $customizer_link . '">' . __( 'Customize', 'genesis-simple-logo' ) . '</a>';
   	array_push( $links, $settings_link );
   	return $links;
 }
@@ -47,7 +47,7 @@ add_action( 'genesis_admin_before_metaboxes', 'genlogo_remove_header_metabox' );
 /**
  * Remove Header Metabox From Genesis Theme Settings Page.
  *
- * @param  array $hook default plugin action links
+ * @param  $hook The current admin page hook.
  * @uses   remove_meta_box()
  * @since  1.0.2
  */

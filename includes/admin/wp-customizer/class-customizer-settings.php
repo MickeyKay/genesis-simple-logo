@@ -57,7 +57,7 @@ class Genesis_Simple_Logo_Customizer extends Genesis_Customizer_Base {
 				$wp_customize,
 				'genlogo_logo',
 				array(
-					'label'    => __( 'Upload a logo. Choose an image less than 400px wide for the best results.', 'genlogo' ),
+					'label'    => __( 'Upload a logo. Choose an image less than 400px wide for the best results.', 'genesis-simple-logo' ),
 					'section'  => 'genlogo_custom_logo',
 					'settings' => $this->get_field_name( 'genlogo_logo' ),
 					'context'  => 'genlogo_logo',
@@ -80,7 +80,7 @@ class Genesis_Simple_Logo_Customizer extends Genesis_Customizer_Base {
 				$wp_customize,
 				'genlogo_width',
 				array(
-					'label'    => __( 'Set Logo Width', 'genlogo' ),
+					'label'    => __( 'Set Logo Width', 'genesis-simple-logo' ),
 					'section'  => 'genlogo_custom_logo',
 					'settings' => $this->get_field_name( 'genlogo_width' ),
 					'priority' => $this->control_priority++,
@@ -102,7 +102,7 @@ class Genesis_Simple_Logo_Customizer extends Genesis_Customizer_Base {
 				$wp_customize,
 				'genlogo_height',
 				array(
-					'label'    => __( 'Set Logo Height', 'genlogo' ),
+					'label'    => __( 'Set Logo Height', 'genesis-simple-logo' ),
 					'section'  => 'genlogo_custom_logo',
 					'settings' => $this->get_field_name( 'genlogo_height' ),
 					'priority' => $this->control_priority++,
@@ -124,7 +124,7 @@ class Genesis_Simple_Logo_Customizer extends Genesis_Customizer_Base {
 				$wp_customize,
 				'genlogo_margin_vertical',
 				array(
-					'label'    => __( 'Set Top & Bottom Margins', 'genlogo' ),
+					'label'    => __( 'Set Top & Bottom Margins', 'genesis-simple-logo' ),
 					'section'  => 'genlogo_custom_logo',
 					'settings' => $this->get_field_name( 'genlogo_margin_vertical' ),
 					'priority' => $this->control_priority++,
@@ -146,7 +146,7 @@ class Genesis_Simple_Logo_Customizer extends Genesis_Customizer_Base {
 				$wp_customize,
 				'genlogo_margin_horizontal',
 				array(
-					'label'    => __( 'Set Left & Right Margins', 'genlogo' ),
+					'label'    => __( 'Set Left & Right Margins', 'genesis-simple-logo' ),
 					'section'  => 'genlogo_custom_logo',
 					'settings' => $this->get_field_name( 'genlogo_margin_horizontal' ),
 					'priority' => $this->control_priority++,

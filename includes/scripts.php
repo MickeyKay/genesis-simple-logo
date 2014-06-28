@@ -26,6 +26,19 @@ function genlogo_enqueue_customizer_assets() {
 	);
 }
 
+function genlogo_formatted_css( $styles ) {
+	if ( ! $styles ) {
+		return;
+	}
+	$css = array(
+		'height'   => ( $styles['height'] ? 'height:' . intval( $styles['height'] ) . 'px;' : '' ),
+		'width'    => ( $styles['width'] ? 'width:' . intval( $styles['width'] ) . 'px;' : '' ),
+		'margin_v' => ( $styles['margin_vertical'] ? intval( $styles['margin_vertical'] ) . 'px' : '0' ),
+		'margin_h' => ( $styles['margin_horizontal'] ? intval( $styles['margin_horizontal'] ) . 'px' : '0' ),
+	);
+	return $css;
+}
+
 add_action( 'wp_head', 'genlogo_head_css' );
 /**
  * Output custom CSS to control the look of the genesis simple logo in the <head>.
@@ -39,17 +52,33 @@ function genlogo_head_css() {
 		return;
 	}
 	$styles = genlogo_get_data();
-	$css    = '';
-	$height = ( $styles['height'] ? 'height:' . intval( $styles['height'] ) . 'px;' : '' );
-	$width  = ( $styles['width'] ? 'width:' . intval( $styles['width'] ) . 'px;' : '' );
-	$margin_vertical  = ( $styles['margin_vertical'] ? intval( $styles['margin_vertical'] ) . 'px' : '0' );
-	$margin_horizontal = ( $styles['margin_horizontal'] ? intval( $styles['margin_horizontal'] ) . 'px' : '0' );
+	$formatted = genlogo_formatted_css( $styles );
+
+	$css = genlogo_html5_css( $styles, $formatted );
+	// Use xHTML styles if Genesis HTML5 is not enabled.
+	if ( ! genesis_html5() ) {
+		$css = genlogo_xhtml_css( $styles, $formatted );
+	}
+
+	//* Minify the CSS a bit.
+	$css = str_replace( "\t", '', $css );
+	$css = str_replace( array( "\n", "\r" ), ' ', $css );
+
+	//* Echo the CSS.
+	echo '<style type="text/css" media="screen">' . $css . '</style>';
+}
+
+
+function genlogo_html5_css( $styles, $formatted ) {
+	if ( ! $styles ) {
+		return;
+	}
 	ob_start();
 	?>
 	.header-image .site-header .title-area,
 	.header-image .site-header .site-title,
 	.header-image .site-header .site-title > a {
-		<?php echo $height; ?>
+		<?php echo $formatted['height']; ?>
 		max-width: 100%;
 	}
 
@@ -59,7 +88,7 @@ function genlogo_head_css() {
 	}
 
 	.header-image .site-header,
-	.header-image .site-header .site-header .wrap,
+	.header-image .site-header .wrap,
 	.header-image .site-header.title-area,
 	.header-image .site-header .site-title,
 	.header-image .site-header .site-title > a {
@@ -83,8 +112,8 @@ function genlogo_head_css() {
 
 	.header-image.header-full-width .site-header .title-area,
 	.header-image .site-header .title-area {
-		<?php echo $width; ?>
-		margin: <?php echo $margin_vertical . ' ' . $margin_horizontal; ?>;
+		<?php echo $formatted['width']; ?>
+		margin: <?php echo $formatted['margin_v'] . ' ' . $formatted['margin_h']; ?>;
 	}
 
 	.header-image .site-header .site-title > a {
@@ -96,35 +125,127 @@ function genlogo_head_css() {
 		background-size: contain;
 	}
 
-	<?php if ( intval( $styles['width'] ) > 300 ) { ?>
-		@media only screen and (max-width: 1139px) {
+	<?php if ( current_theme_supports( 'genesis-responsive-viewport' ) ) { ?>
+
+		<?php if ( intval( $styles['width'] ) > 300 ) { ?>
+			@media only screen and (max-width: 1139px) {
+				.header-image.header-full-width .site-header .title-area,
+				.header-image .site-header .title-area {
+					width: 300px;
+				}
+			}
+		<?php } ?>
+
+		@media only screen and (max-width: 1023px) {
 			.header-image.header-full-width .site-header .title-area,
 			.header-image .site-header .title-area {
-				width: 300px;
+				float: none;
+				margin: <?php echo $formatted['margin_v']; ?> auto;
+				max-width: 300px
+			}
+
+			.header-image .site-header .site-title > a {
+				float: none;
+				max-width: 100%;
+				width: 100%;
 			}
 		}
-	<?php } ?>
-	@media only screen and (max-width: 1023px) {
-		.header-image.header-full-width .site-header .title-area,
-		.header-image .site-header .title-area {
-			float: none;
-			margin: <?php echo $margin_vertical; ?> auto;
-			max-width: 300px
-		}
-		.header-image .site-header .site-title > a {
-			float: none;
-			max-width: 100%;
-			width: 100%;
-		}
-	}
+
 	<?php
 
+	} // End Mobile Viewport check.
+
 	$css = ob_get_clean();
+	return $css;
+}
 
-	//* Minify the CSS a bit.
-	$css = str_replace( "\t", '', $css );
-	$css = str_replace( array( "\n", "\r" ), ' ', $css );
+function genlogo_xhtml_css( $styles, $formatted ) {
+	if ( ! $styles ) {
+		return;
+	}
+	$css    = '';
+	ob_start();
+	?>
+	.header-image #header #title-area,
+	.header-image #header #title,
+	.header-image #header #title > a {
+		<?php echo $formatted['height']; ?>
+		max-width: 100%;
+	}
 
-	//* Echo the CSS.
-	echo '<style type="text/css" media="screen">' . $css . '</style>';
+	.header-image #header #title,
+	.header-image #header #title > a {
+		width: 100%;
+	}
+
+	.header-image #header,
+	.header-image #header .wrap,
+	.header-image #header #title-area,
+	.header-image #header #title,
+	.header-image #header #title > a {
+		background-image: none;
+	}
+
+	.header-image.header-full-width #title-area,
+	.header-image #header #title-area,
+	.header-image #header #title,
+	.header-image #header #title > a {
+		background: transparent;
+		display: block;
+		line-height: 0;
+		margin: 0;
+		min-height: inherit;
+		overflow: hidden;
+		padding: 0;
+		position: relative;
+		text-indent: -9999px;
+	}
+
+	.header-image.header-full-width #header #title-area,
+	.header-image #header #title-area {
+		<?php echo $formatted['width']; ?>
+		margin: <?php echo $formatted['margin_v'] . ' ' . $formatted['margin_h']; ?>;
+	}
+
+	.header-image #header #title > a {
+		background-image: url('<?php echo esc_url( $styles['logo'] ); ?>');
+		background-repeat: no-repeat;
+		background-position: center;
+		-webkit-background-size: contain;
+		-moz-background-size: contain;
+		background-size: contain;
+	}
+
+	<?php if ( current_theme_supports( 'genesis-responsive-viewport' ) ) { ?>
+
+		<?php if ( intval( $styles['width'] ) > 300 ) { ?>
+			@media only screen and (max-width: 1139px) {
+				.header-image.header-full-width #header #title-area,
+				.header-image #header #title-area {
+					width: 300px;
+				}
+			}
+		<?php } ?>
+
+		@media only screen and (max-width: 1023px) {
+			.header-image.header-full-width #header #title-area,
+			.header-image #header #title-area {
+				float: none;
+				margin: <?php echo $formatted['margin_v']; ?> auto;
+				max-width: 300px
+			}
+
+			.header-image #header #title > a {
+				float: none;
+				max-width: 100%;
+				width: 100%;
+			}
+		}
+
+	<?php
+
+	} // End Mobile Viewport check.
+
+	$css = ob_get_clean();
+	return $css;
 }
