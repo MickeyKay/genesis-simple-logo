@@ -42,6 +42,8 @@ function genlogo_head_css() {
 	$css    = '';
 	$height = ( $styles['height'] ? 'height:' . intval( $styles['height'] ) . 'px;' : '' );
 	$width  = ( $styles['width'] ? 'width:' . intval( $styles['width'] ) . 'px;' : '' );
+	$margin_vertical  = ( $styles['margin_vertical'] ? intval( $styles['margin_vertical'] ) . 'px' : '0' );
+	$margin_horizontal = ( $styles['margin_horizontal'] ? intval( $styles['margin_horizontal'] ) . 'px' : '0' );
 	ob_start();
 	?>
 	.header-image .site-header .title-area,
@@ -49,11 +51,6 @@ function genlogo_head_css() {
 	.header-image .site-header .site-title > a {
 		<?php echo $height; ?>
 		max-width: 100%;
-	}
-
-	.header-image.header-full-width .site-header .title-area,
-	.header-image .site-header .title-area {
-		<?php echo $width; ?>
 	}
 
 	.header-image .site-header .site-title,
@@ -84,6 +81,12 @@ function genlogo_head_css() {
 		text-indent: -9999px;
 	}
 
+	.header-image.header-full-width .site-header .title-area,
+	.header-image .site-header .title-area {
+		<?php echo $width; ?>
+		margin: <?php echo $margin_vertical . ' ' . $margin_horizontal; ?>;
+	}
+
 	.header-image .site-header .site-title > a {
 		background-image: url('<?php echo esc_url( $styles['logo'] ); ?>');
 		background-repeat: no-repeat;
@@ -105,7 +108,7 @@ function genlogo_head_css() {
 		.header-image.header-full-width .site-header .title-area,
 		.header-image .site-header .title-area {
 			float: none;
-			margin: 0 auto;
+			margin: <?php echo $margin_vertical; ?> auto;
 			max-width: 300px
 		}
 		.header-image .site-header .site-title > a {
