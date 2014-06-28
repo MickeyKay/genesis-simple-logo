@@ -42,36 +42,34 @@ function genlogo_head_css() {
 	$css    = '';
 	$height = ( $styles['height'] ? 'height:' . intval( $styles['height'] ) . 'px;' : '' );
 	$width  = ( $styles['width'] ? 'width:' . intval( $styles['width'] ) . 'px;' : '' );
+	$margin_vertical  = ( $styles['margin_vertical'] ? intval( $styles['margin_vertical'] ) . 'px' : '0' );
+	$margin_horizontal = ( $styles['margin_horizontal'] ? intval( $styles['margin_horizontal'] ) . 'px' : '0' );
 	ob_start();
 	?>
-	.header-image .title-area,
-	.header-image .site-title,
-	.header-image .site-title > a {
+	.header-image .site-header .title-area,
+	.header-image .site-header .site-title,
+	.header-image .site-header .site-title > a {
 		<?php echo $height; ?>
 		max-width: 100%;
 	}
 
-	.header-image .title-area {
-		<?php echo $width; ?>
-	}
-
-	.header-image.header-full-width .title-area,
-	.header-image .site-title,
-	.header-image .site-title > a {
+	.header-image .site-header .site-title,
+	.header-image .site-header .site-title > a {
 		width: 100%;
 	}
 
 	.header-image .site-header,
-	.header-image .site-header .wrap,
-	.header-image .title-area,
-	.header-image .site-title,
-	.header-image .site-title > a {
+	.header-image .site-header .site-header .wrap,
+	.header-image .site-header.title-area,
+	.header-image .site-header .site-title,
+	.header-image .site-header .site-title > a {
 		background-image: none;
 	}
 
-	.header-image .title-area,
-	.header-image .site-title,
-	.header-image .site-title > a {
+	.header-image.header-full-width .title-area,
+	.header-image .site-header .title-area,
+	.header-image .site-header .site-title,
+	.header-image .site-header .site-title > a {
 		background: transparent;
 		display: block;
 		line-height: 0;
@@ -83,7 +81,13 @@ function genlogo_head_css() {
 		text-indent: -9999px;
 	}
 
-	.header-image .site-title > a {
+	.header-image.header-full-width .site-header .title-area,
+	.header-image .site-header .title-area {
+		<?php echo $width; ?>
+		margin: <?php echo $margin_vertical . ' ' . $margin_horizontal; ?>;
+	}
+
+	.header-image .site-header .site-title > a {
 		background-image: url('<?php echo esc_url( $styles['logo'] ); ?>');
 		background-repeat: no-repeat;
 		background-position: center;
@@ -94,18 +98,20 @@ function genlogo_head_css() {
 
 	<?php if ( intval( $styles['width'] ) > 300 ) { ?>
 		@media only screen and (max-width: 1139px) {
-			.header-image .title-area {
+			.header-image.header-full-width .site-header .title-area,
+			.header-image .site-header .title-area {
 				width: 300px;
 			}
 		}
 	<?php } ?>
 	@media only screen and (max-width: 1023px) {
-		.header-image .title-area {
+		.header-image.header-full-width .site-header .title-area,
+		.header-image .site-header .title-area {
 			float: none;
-			margin: 0 auto;
+			margin: <?php echo $margin_vertical; ?> auto;
 			max-width: 300px
 		}
-		.header-image .site-title > a {
+		.header-image .site-header .site-title > a {
 			float: none;
 			max-width: 100%;
 			width: 100%;

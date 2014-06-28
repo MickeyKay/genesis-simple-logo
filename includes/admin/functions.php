@@ -43,8 +43,14 @@ function genlogo_add_settings_link( $links ) {
   	return $links;
 }
 
-// Remove Meta Box From Theme Settings Page
 add_action( 'genesis_admin_before_metaboxes', 'genlogo_remove_header_metabox' );
+/**
+ * Remove Header Metabox From Genesis Theme Settings Page.
+ *
+ * @param  array $hook default plugin action links
+ * @uses   remove_meta_box()
+ * @since  1.0.2
+ */
 function genlogo_remove_header_metabox( $hook ) {
 	remove_meta_box( 'genesis-theme-settings-header', $hook, 'main' );
 }

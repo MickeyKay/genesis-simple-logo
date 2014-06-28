@@ -40,9 +40,11 @@ class Genesis_Simple_Logo_Settings extends Genesis_Admin_Boxes {
 		$default_settings = apply_filters(
 			'genlogo_settings_defaults',
 			array(
-				'genlogo_logo'   => '',
-				'genlogo_height' => '',
-				'genlogo_width'  => '',
+				'genlogo_logo'              => '',
+				'genlogo_height'            => '',
+				'genlogo_width'             => '',
+				'genlogo_margin_vertical'   => '',
+				'genlogo_margin_horizontal' => '',
 			)
 		);
 
@@ -68,6 +70,8 @@ class Genesis_Simple_Logo_Settings extends Genesis_Admin_Boxes {
 			array(
 				'genlogo_height',
 				'genlogo_width',
+				'genlogo_margin_horizontal',
+				'genlogo_margin_vertical',
 			)
 		);
 		genesis_add_option_filter(
