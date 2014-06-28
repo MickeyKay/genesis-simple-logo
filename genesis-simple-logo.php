@@ -2,7 +2,7 @@
 /*
 Plugin Name: Genesis Simple Logo
 Description: Lets you easily add a logo to your Genesis website using the WordPress customizer.
-Version: 1.0.1
+Version: 1.0.2
 License: GPL version 2 or any later version
 Plugin URI: http://flagshipwp.com/plugins/genesis-simple-logo/
 Author: Flagship
@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 defined( 'WPINC' ) or die;
 
 // Grab this directory
-$_genlogo_dir = dirname( __FILE__ ) . '/';
+$_genlogo_dir = plugin_dir_path( __FILE__ );
 
 // Include our core plugin files.
 include( $_genlogo_dir . 'includes/install.php' );
