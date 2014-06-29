@@ -12,24 +12,11 @@
 // Exit if accessed directly
 defined( 'WPINC' ) or die;
 
-function genlogo_formatted_css( $styles ) {
-	if ( ! $styles ) {
-		return;
-	}
-	$css = array(
-		'height'   => ( $styles['height'] ? 'height:' . intval( $styles['height'] ) . 'px;' : '' ),
-		'width'    => ( $styles['width'] ? 'width:' . intval( $styles['width'] ) . 'px;' : '' ),
-		'margin_v' => ( $styles['margin_vertical'] ? intval( $styles['margin_vertical'] ) . 'px' : '0' ),
-		'margin_h' => ( $styles['margin_horizontal'] ? intval( $styles['margin_horizontal'] ) . 'px' : '0' ),
-	);
-	return $css;
-}
-
 add_action( 'wp_head', 'genlogo_head_css' );
 /**
  * Output custom CSS to control the look of the genesis simple logo in the <head>.
  *
- * @return null if we have no custom styles.
+ * @return null if we have no custom logo.
  * @since  1.0.0
  */
 function genlogo_head_css() {
@@ -37,7 +24,7 @@ function genlogo_head_css() {
 	if ( ! genlogo_has_logo() ) {
 		return;
 	}
-	$styles = genlogo_get_data();
+	$styles    = genlogo_get_data();
 	$formatted = genlogo_formatted_css( $styles );
 
 	$css = genlogo_html5_css( $styles, $formatted );
@@ -54,7 +41,34 @@ function genlogo_head_css() {
 	echo '<style type="text/css" media="screen">' . $css . '</style>';
 }
 
+/**
+ * Format styles for display by setting fallbacks when the options haven't been set.
+ *
+ * @param  $styles An array of custom style settings.
+ * @return $css    An array of formatted css rules.
+ * @since  1.0.5
+ */
+function genlogo_formatted_css( $styles ) {
+	if ( ! $styles ) {
+		return;
+	}
+	$css = array(
+		'height'   => ( $styles['height'] ? 'height:' . intval( $styles['height'] ) . 'px;' : '' ),
+		'width'    => ( $styles['width'] ? 'width:' . intval( $styles['width'] ) . 'px;' : '' ),
+		'margin_v' => ( $styles['margin_vertical'] ? intval( $styles['margin_vertical'] ) . 'px' : '0' ),
+		'margin_h' => ( $styles['margin_horizontal'] ? intval( $styles['margin_horizontal'] ) . 'px' : '0' ),
+	);
+	return $css;
+}
 
+/**
+ * Set up styles for HTML5 themes and return them to be output in the head.
+ *
+ * @param  $styles       An array of custom style settings.
+ * @param  $formatted    An array of formatted css rules.
+ * @return $css          A string of HTML5 css rules.
+ * @since  1.0.5
+ */
 function genlogo_html5_css( $styles, $formatted ) {
 	if ( ! $styles ) {
 		return;
@@ -65,6 +79,7 @@ function genlogo_html5_css( $styles, $formatted ) {
 	.header-image .site-header .site-title,
 	.header-image .site-header .site-title > a {
 		<?php echo $formatted['height']; ?>
+		min-height: 0;
 		max-width: 100%;
 	}
 
@@ -116,41 +131,56 @@ function genlogo_html5_css( $styles, $formatted ) {
 		background-size: contain;
 	}
 
-	<?php if ( current_theme_supports( 'genesis-responsive-viewport' ) ) { ?>
+	@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+		only screen and (-moz-min-device-pixel-ratio: 1.5),
+		only screen and (-o-min-device-pixel-ratio: 3/2),
+		only screen and (min-device-pixel-ratio: 1.5) {
 
-		<?php if ( intval( $styles['width'] ) > 300 ) { ?>
-			@media only screen and (max-width: 1139px) {
-				.header-image.header-full-width .site-header .title-area,
-				.header-image .site-header .title-area {
-					width: 300px;
-					max-width: 300px
-				}
-			}
-		<?php } ?>
-		<?php if ( 'mobile' === $styles['center']  ) { ?>
-			@media only screen and (max-width: 1023px) {
-				.header-image.header-full-width .site-header .title-area,
-				.header-image .site-header .title-area {
-					float: none;
-					margin: <?php echo $formatted['margin_v']; ?> auto;
-				}
+		.header-image .site-header .wrap {
+			background-image: url('<?php echo esc_url( $styles['logo'] ); ?>');
+			background-size: contain;
+		}
+	}
 
-				.header-image .site-header .site-title > a {
-					float: none;
-					max-width: 100%;
-					width: 100%;
-				}
+	<?php if ( intval( $styles['width'] ) > 300 ) { ?>
+		@media only screen and (max-width: 1139px) {
+			.header-image.header-full-width .site-header .title-area,
+			.header-image .site-header .title-area {
+				width: 300px;
+				max-width: 300px
 			}
-		<?php } ?>
+		}
+	<?php } ?>
+	<?php if ( 'mobile' === $styles['center']  ) { ?>
+		@media only screen and (max-width: 1023px) {
+			.header-image.header-full-width .site-header .title-area,
+			.header-image .site-header .title-area {
+				float: none;
+				margin: <?php echo $formatted['margin_v']; ?> auto;
+			}
+
+			.header-image .site-header .site-title > a {
+				float: none;
+				max-width: 100%;
+				width: 100%;
+			}
+		}
+	<?php } ?>
 
 	<?php
 
-	} // End Mobile Viewport check.
-
 	$css = ob_get_clean();
-	return $css;
+	return apply_filters( 'genlogo_html5_css', $css );
 }
 
+/**
+ * Set up styles for xHTML themes and return them to be output in the head.
+ *
+ * @param  $styles       An array of custom style settings.
+ * @param  $formatted    An array of formatted css rules.
+ * @return $css          A string of xHTML css rules.
+ * @since  1.0.5
+ */
 function genlogo_xhtml_css( $styles, $formatted ) {
 	if ( ! $styles ) {
 		return;
@@ -170,8 +200,6 @@ function genlogo_xhtml_css( $styles, $formatted ) {
 		width: 100%;
 	}
 
-	.header-image #header,
-	.header-image #header .wrap,
 	.header-image #header #title-area,
 	.header-image #header #title,
 	.header-image #header #title > a {
@@ -182,7 +210,6 @@ function genlogo_xhtml_css( $styles, $formatted ) {
 	.header-image #header #title-area,
 	.header-image #header #title,
 	.header-image #header #title > a {
-		background: transparent;
 		display: block;
 		line-height: 0;
 		margin: 0;
@@ -213,37 +240,62 @@ function genlogo_xhtml_css( $styles, $formatted ) {
 		background-size: contain;
 	}
 
-	<?php if ( current_theme_supports( 'genesis-responsive-viewport' ) ) { ?>
-
-		<?php if ( intval( $styles['width'] ) > 300 ) { ?>
-			@media only screen and (max-width: 1139px) {
-				.header-image.header-full-width .site-header .title-area,
-				.header-image .site-header .title-area {
-					width: 300px;
-					max-width: 300px
-				}
+	<?php if ( intval( $styles['width'] ) > 300 ) { ?>
+		@media only screen and (max-width: 1139px) {
+			.header-image.header-full-width .site-header .title-area,
+			.header-image .site-header .title-area {
+				width: 300px;
+				max-width: 300px
 			}
-		<?php } ?>
-		<?php if ( 'mobile' === $styles['center']  ) { ?>
-			@media only screen and (max-width: 1023px) {
-				.header-image.header-full-width #header #title-area,
-				.header-image #header #title-area {
-					float: none;
-					margin: <?php echo $formatted['margin_v']; ?> auto;
-				}
-
-				.header-image #header #title > a {
-					float: none;
-					max-width: 100%;
-					width: 100%;
-				}
+		}
+	<?php } ?>
+	<?php if ( 'mobile' === $styles['center']  ) { ?>
+		@media only screen and (max-width: 1023px) {
+			.header-image.header-full-width #header #title-area,
+			.header-image #header #title-area {
+				float: none;
+				margin: <?php echo $formatted['margin_v']; ?> auto;
 			}
-		<?php } ?>
+
+			.header-image #header #title > a {
+				float: none;
+				max-width: 100%;
+				width: 100%;
+			}
+		}
+	<?php } ?>
 
 	<?php
 
-	} // End Mobile Viewport check.
-
 	$css = ob_get_clean();
+	return apply_filters( 'genlogo_xhtml_css', $css );
+}
+
+add_filter( 'genlogo_html5_css', 'genlogo_centric_pro_css' );
+/**
+ * Add some additional CSS for the Centric Pro theme.
+ *
+ * @since   1.0.4
+ * @uses    wp_get_theme()
+ * @param   $css Current CSS output.
+ * @return  $css Current CSS output with centric pro stiyles appended.
+ */
+function genlogo_centric_pro_css( $css ) {
+	$theme_info = wp_get_theme();
+	if ( ! in_array( $theme_info->Name, array( 'Centric Theme' ) ) ) {
+		return $css;
+	}
+	ob_start();
+	?>
+	.site-header .wrap,
+	.site-header.shrink .wrap {
+		min-height: 0;
+	}
+	.header-image .site-header .site-title > a {
+		background-size: contain !important;
+		min-height: 0;
+	}
+	<?php
+	$css .= ob_get_clean();
 	return $css;
 }
