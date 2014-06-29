@@ -20,7 +20,7 @@ class Genesis_Genesis_Simple_Logo {
 	 * @since   1.0.0
 	 * @var     string
 	 */
-	const VERSION = '1.0.6';
+	const VERSION = '1.0.6.1';
 
 	/**
 	 * Unique identifier for the Genesis Simple Logo plugin.
