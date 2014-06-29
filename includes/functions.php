@@ -166,6 +166,18 @@ function genlogo_get_image_dimensions() {
 }
 
 add_action( 'genesis_setup', 'genlogo_add_simple_logo_support', 20 );
+/**
+ * Add theme support for Genesis Simple Logo if it hasn't already been enabled in
+ * the current child theme. Also adds a new image size to be used for the logos.
+ *
+ * @todo  Integrate this into the image output somehow. Customizer makes this difficult.
+ *
+ * @since 1.0.2
+ *
+ * @uses  current_theme_supports()
+ * @uses  add_theme_support()
+ * @uses  add_image_size()
+ */
 function genlogo_add_simple_logo_support() {
 	if ( current_theme_supports( 'genesis-simple-logo' ) ) {
 		return;
@@ -175,8 +187,17 @@ function genlogo_add_simple_logo_support() {
 }
 
 add_action( 'after_setup_theme', 'genlogo_remove_custom_header_support', 20 );
+/**
+ * Remove support for the custom header feature to avoid confusion on HTML5
+ * themes which used it as a logo uploader.
+ *
+ * @since 1.0.2
+ *
+ * @uses current_theme_supports()
+ * @uses genesis_html5()
+ */
 function genlogo_remove_custom_header_support() {
-	if ( ! current_theme_supports( 'custom-header' ) || ! genesis_html5() ) {
+	if ( ! current_theme_supports( 'custom-header' ) ) {
 		return;
 	}
 	// Remove theme support for the WordPress custom header function.
