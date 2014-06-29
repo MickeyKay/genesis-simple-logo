@@ -37,6 +37,8 @@ class Genesis_Simple_Logo_Settings extends Genesis_Admin_Boxes {
 		);
 		$page_ops = array(); //* use defaults
 
+		$center = current_theme_supports( 'genesis-responsive-viewport' ) ? 'mobile' : 'never';
+
 		$default_settings = apply_filters(
 			'genlogo_settings_defaults',
 			array(
@@ -45,6 +47,7 @@ class Genesis_Simple_Logo_Settings extends Genesis_Admin_Boxes {
 				'genlogo_width'             => '',
 				'genlogo_margin_vertical'   => '',
 				'genlogo_margin_horizontal' => '',
+				'genlogo_center_logo'       => $center,
 			)
 		);
 
@@ -79,6 +82,13 @@ class Genesis_Simple_Logo_Settings extends Genesis_Admin_Boxes {
 			$this->settings_field,
 			array(
 				'genlogo_logo',
+			)
+		);
+		genesis_add_option_filter(
+			'no_html',
+			$this->settings_field,
+			array(
+				'genlogo_center_logo',
 			)
 		);
 	}

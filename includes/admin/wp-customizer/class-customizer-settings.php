@@ -38,7 +38,7 @@ class Genesis_Simple_Logo_Customizer extends Genesis_Customizer_Base {
 			'genlogo_custom_logo',
 			array(
 				'title'          => 'Logo',
-				'description'    => 'Add a custom logo.',
+				'description'    => 'Add a custom logo. Choose an image less than 400px wide for the best results.',
 				'priority'       => 25,
 			)
 		);
@@ -57,7 +57,7 @@ class Genesis_Simple_Logo_Customizer extends Genesis_Customizer_Base {
 				$wp_customize,
 				'genlogo_logo',
 				array(
-					'label'    => __( 'Upload a logo. Choose an image less than 400px wide for the best results.', 'genesis-simple-logo' ),
+					'label'    => __( 'Upload a logo Image', 'genesis-simple-logo' ),
 					'section'  => 'genlogo_custom_logo',
 					'settings' => $this->get_field_name( 'genlogo_logo' ),
 					'context'  => 'genlogo_logo',
@@ -151,6 +151,40 @@ class Genesis_Simple_Logo_Customizer extends Genesis_Customizer_Base {
 					'settings' => $this->get_field_name( 'genlogo_margin_horizontal' ),
 					'priority' => $this->control_priority++,
 				)
+			)
+		);
+
+		$wp_customize->add_setting(
+			$this->get_field_name( 'genlogo_center_logo' ),
+			array(
+				'default'    => $settings['genlogo_center_logo'],
+				'capability' => 'edit_theme_options',
+				'type'       => 'option',
+			)
+		);
+
+		$choices  = array(
+			'always' => __( 'Always Center', 'genesis-simple-logo' ),
+			'never'  => __( 'Never Center', 'genesis-simple-logo' ),
+		);
+
+		if ( current_theme_supports( 'genesis-responsive-viewport' ) ) {
+			$choices  = array(
+				'mobile' => __( 'Only Center on Mobile Devices', 'genesis-simple-logo' ),
+				'always' => __( 'Always Center', 'genesis-simple-logo' ),
+				'never'  => __( 'Never Center', 'genesis-simple-logo' ),
+			);
+		}
+
+		$wp_customize->add_control(
+			'genlogo_center_logo',
+			array(
+				'label'    => __( 'Choose When to Center the Logo', 'genesis-simple-logo' ),
+				'section'  => 'genlogo_custom_logo',
+				'settings' => $this->get_field_name( 'genlogo_center_logo' ),
+				'priority' => $this->control_priority++,
+				'type'     => 'select',
+				'choices'  => $choices
 			)
 		);
 	}
