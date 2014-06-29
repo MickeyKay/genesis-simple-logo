@@ -57,6 +57,7 @@ function genlogo_get_data() {
 		'width'             => genlogo_get_option( 'genlogo_width' ),
 		'margin_vertical'   => genlogo_get_option( 'genlogo_margin_vertical' ),
 		'margin_horizontal' => genlogo_get_option( 'genlogo_margin_horizontal' ),
+		'center'            => genlogo_get_option( 'genlogo_center_logo' ),
 	);
 	return $settings;
 }
@@ -175,7 +176,7 @@ function genlogo_add_simple_logo_support() {
 
 add_action( 'after_setup_theme', 'genlogo_remove_custom_header_support', 20 );
 function genlogo_remove_custom_header_support() {
-	if ( ! current_theme_supports( 'custom-header' ) ) {
+	if ( ! current_theme_supports( 'custom-header' ) || ! genesis_html5() ) {
 		return;
 	}
 	// Remove theme support for the WordPress custom header function.
