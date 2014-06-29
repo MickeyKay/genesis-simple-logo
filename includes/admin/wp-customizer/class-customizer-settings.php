@@ -164,17 +164,10 @@ class Genesis_Simple_Logo_Customizer extends Genesis_Customizer_Base {
 		);
 
 		$choices  = array(
+			'mobile' => __( 'Only Center on Mobile Devices', 'genesis-simple-logo' ),
 			'always' => __( 'Always Center', 'genesis-simple-logo' ),
 			'never'  => __( 'Never Center', 'genesis-simple-logo' ),
 		);
-
-		if ( current_theme_supports( 'genesis-responsive-viewport' ) ) {
-			$choices  = array(
-				'mobile' => __( 'Only Center on Mobile Devices', 'genesis-simple-logo' ),
-				'always' => __( 'Always Center', 'genesis-simple-logo' ),
-				'never'  => __( 'Never Center', 'genesis-simple-logo' ),
-			);
-		}
 
 		$wp_customize->add_control(
 			'genlogo_center_logo',
