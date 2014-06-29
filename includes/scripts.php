@@ -12,20 +12,6 @@
 // Exit if accessed directly
 defined( 'WPINC' ) or die;
 
-add_action( 'customize_controls_enqueue_scripts', 'genlogo_enqueue_customizer_assets' );
-/**
- * Add customimzer JS to live-refresh controls when logos are added or removed.
- *
- * @see add_action('customize_preview_init',$func)
- */
-function genlogo_enqueue_customizer_assets() {
-	wp_enqueue_script(
-		'genlogo-customizer',
-		GENLOGO_URL . 'assets/js/genlogo-customizer.js',
-		array( 'customize-loader', 'jquery' )
-	);
-}
-
 function genlogo_formatted_css( $styles ) {
 	if ( ! $styles ) {
 		return;
@@ -89,7 +75,7 @@ function genlogo_html5_css( $styles, $formatted ) {
 
 	.header-image .site-header,
 	.header-image .site-header .wrap,
-	.header-image .site-header.title-area,
+	.header-image .site-header .title-area,
 	.header-image .site-header .site-title,
 	.header-image .site-header .site-title > a {
 		background-image: none;
@@ -112,8 +98,13 @@ function genlogo_html5_css( $styles, $formatted ) {
 
 	.header-image.header-full-width .site-header .title-area,
 	.header-image .site-header .title-area {
+		<?php if ( 'always' === $styles['center']  ) { ?>
+			float: none;
+			margin: <?php echo $formatted['margin_v']; ?> auto;
+		<?php } else { ?>
+			margin: <?php echo $formatted['margin_v'] . ' ' . $formatted['margin_h']; ?>;
+		<?php } ?>
 		<?php echo $formatted['width']; ?>
-		margin: <?php echo $formatted['margin_v'] . ' ' . $formatted['margin_h']; ?>;
 	}
 
 	.header-image .site-header .site-title > a {
@@ -132,24 +123,25 @@ function genlogo_html5_css( $styles, $formatted ) {
 				.header-image.header-full-width .site-header .title-area,
 				.header-image .site-header .title-area {
 					width: 300px;
+					max-width: 300px
 				}
 			}
 		<?php } ?>
+		<?php if ( 'mobile' === $styles['center']  ) { ?>
+			@media only screen and (max-width: 1023px) {
+				.header-image.header-full-width .site-header .title-area,
+				.header-image .site-header .title-area {
+					float: none;
+					margin: <?php echo $formatted['margin_v']; ?> auto;
+				}
 
-		@media only screen and (max-width: 1023px) {
-			.header-image.header-full-width .site-header .title-area,
-			.header-image .site-header .title-area {
-				float: none;
-				margin: <?php echo $formatted['margin_v']; ?> auto;
-				max-width: 300px
+				.header-image .site-header .site-title > a {
+					float: none;
+					max-width: 100%;
+					width: 100%;
+				}
 			}
-
-			.header-image .site-header .site-title > a {
-				float: none;
-				max-width: 100%;
-				width: 100%;
-			}
-		}
+		<?php } ?>
 
 	<?php
 
@@ -203,8 +195,13 @@ function genlogo_xhtml_css( $styles, $formatted ) {
 
 	.header-image.header-full-width #header #title-area,
 	.header-image #header #title-area {
+		<?php if ( 'always' === $styles['center']  ) { ?>
+			float: none;
+			margin: <?php echo $formatted['margin_v']; ?> auto;
+		<?php } else { ?>
+			margin: <?php echo $formatted['margin_v'] . ' ' . $formatted['margin_h']; ?>;
+		<?php } ?>
 		<?php echo $formatted['width']; ?>
-		margin: <?php echo $formatted['margin_v'] . ' ' . $formatted['margin_h']; ?>;
 	}
 
 	.header-image #header #title > a {
@@ -220,27 +217,28 @@ function genlogo_xhtml_css( $styles, $formatted ) {
 
 		<?php if ( intval( $styles['width'] ) > 300 ) { ?>
 			@media only screen and (max-width: 1139px) {
-				.header-image.header-full-width #header #title-area,
-				.header-image #header #title-area {
+				.header-image.header-full-width .site-header .title-area,
+				.header-image .site-header .title-area {
 					width: 300px;
+					max-width: 300px
 				}
 			}
 		<?php } ?>
+		<?php if ( 'mobile' === $styles['center']  ) { ?>
+			@media only screen and (max-width: 1023px) {
+				.header-image.header-full-width #header #title-area,
+				.header-image #header #title-area {
+					float: none;
+					margin: <?php echo $formatted['margin_v']; ?> auto;
+				}
 
-		@media only screen and (max-width: 1023px) {
-			.header-image.header-full-width #header #title-area,
-			.header-image #header #title-area {
-				float: none;
-				margin: <?php echo $formatted['margin_v']; ?> auto;
-				max-width: 300px
+				.header-image #header #title > a {
+					float: none;
+					max-width: 100%;
+					width: 100%;
+				}
 			}
-
-			.header-image #header #title > a {
-				float: none;
-				max-width: 100%;
-				width: 100%;
-			}
-		}
+		<?php } ?>
 
 	<?php
 
