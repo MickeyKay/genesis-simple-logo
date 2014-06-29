@@ -96,11 +96,15 @@ class Genesis_Genesis_Simple_Logo {
 	}
 
 	/**
-	 * Include functions and libraries.
+	 * Include functions and libraries if the parent theme is Genesis.
 	 *
 	 *  @since    1.0.0
+	 *  @return   null End early if the parent theme isn't Genesis.
 	 */
 	public function includes() {
+		if ( ! $this->is_genesis() ) {
+			return;
+		}
 		require_once( GENLOGO_DIR . 'includes/functions.php' );
 		require_once( GENLOGO_DIR . 'includes/scripts.php' );
 		if ( is_admin() ) {
@@ -127,7 +131,7 @@ class Genesis_Genesis_Simple_Logo {
 	}
 
 	/**
-	 * Deactivate the plugin if the parent theme isn't Genesis.
+	 * Hook into WordPress and run functions if the parent theme isn't Genesis.
 	 *
 	 * @since    1.0.1
 	 */
@@ -136,6 +140,13 @@ class Genesis_Genesis_Simple_Logo {
 		add_action( 'admin_notices', array( $this, 'maybe_show_deactivate_notice' ) );
 	}
 
+	/**
+	 * Helper function to determine whether or not Genesis is the parent theme.
+	 *
+	 * @since   1.0.4
+	 * @uses    wp_get_theme()
+	 * @return  bool true if the parent theme is Genesis
+	 */
 	function is_genesis() {
 		$theme_info = wp_get_theme();
 
@@ -150,6 +161,12 @@ class Genesis_Genesis_Simple_Logo {
 		return false;
 	}
 
+	/**
+	 * Deactivate the plugin if Genesis isn't the parent theme.
+	 *
+	 * @since   1.0.4
+	 * @uses    is_genesis()
+	 */
 	function maybe_deactivate() {
 		if ( $this->is_genesis() ) {
 			return;
@@ -157,6 +174,12 @@ class Genesis_Genesis_Simple_Logo {
 		deactivate_plugins( GENLOGO_FILE );
 	}
 
+	/**
+	 * Add a notice in the admin panel after deactivating the plugin.
+	 *
+	 * @since   1.0.4
+	 * @uses    is_genesis()
+	 */
 	function maybe_show_deactivate_notice() {
 		if ( $this->is_genesis() ) {
 			return;
