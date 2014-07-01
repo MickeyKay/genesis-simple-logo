@@ -13,10 +13,9 @@
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
-// Do nothing if the WP_Customize_Control class doesn't exist.
-if ( ! class_exists( 'WP_Customize_Control' ) ) {
-	return;
-}
+
+// Check to make sure the WP_Customize_Control class exists.
+if ( class_exists( 'WP_Customize_Control' ) ) :
 
 /**
  * Creates Customizer control for input[type=number] field
@@ -38,3 +37,5 @@ class Genesis_Simple_Logo_Customize_Number_Control extends WP_Customize_Control 
 	}
 
 }
+
+endif; // End class exists check.
