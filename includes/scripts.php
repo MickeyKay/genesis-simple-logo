@@ -281,8 +281,7 @@ add_filter( 'genlogo_html5_css', 'genlogo_centric_pro_css' );
  * @return  $css Current CSS output with centric pro stiyles appended.
  */
 function genlogo_centric_pro_css( $css ) {
-	$theme_info = wp_get_theme();
-	if ( ! in_array( $theme_info->Name, array( 'Centric Theme' ) ) ) {
+	if ( ! genlogo_is_theme( 'Centric Theme' ) ) {
 		return $css;
 	}
 	ob_start();

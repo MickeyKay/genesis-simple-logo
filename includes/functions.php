@@ -44,6 +44,22 @@ function genlogo_get_option( $option, $use_cache = true ) {
 }
 
 /**
+ * Helper function to determine if the current theme matches a specified name.
+ *
+ * @param  $name The name of the theme to check. Can be a string or an array.
+ * @return bool true if the current theme matches a string or array of strings.
+ * @uses   wp_get_theme()
+ * @since  1.0.8
+ */
+function genlogo_is_theme( $names ) {
+	$theme_info = wp_get_theme();
+	if ( in_array( $theme_info->Name, (array) $names ) ) {
+		return true;
+	}
+	return false;
+}
+
+/**
  * Helper function to grab the genesis simple logo settings as an array.
  *
  * @return $settings the returned option values in an array.
