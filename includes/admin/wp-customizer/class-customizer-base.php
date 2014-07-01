@@ -13,15 +13,15 @@
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
-// Do nothing if the Genesis Customizer Base class already exists.
-if ( class_exists( 'Genesis_Customizer_Base' ) ) {
-	return;
-}
+
+// Add the Genesis Customizer Base class if it doesn't already exist.
+if ( ! class_exists( 'Genesis_Customizer_Base' ) ) :
 
 /**
- *
+ * Genesis Customizer Base class.
  */
 abstract class Genesis_Customizer_Base {
+
 	/**
 	 * Define defaults, call the `register` method, add css to head.
 	 */
@@ -53,7 +53,6 @@ abstract class Genesis_Customizer_Base {
 		return genesis_get_option( $key, $this->settings_field );
 	}
 
-	function sanitize_text( $input ) {
-		return wp_kses_post( force_balance_tags( $input ) );
-	}
 }
+
+endif; // End class exists check.

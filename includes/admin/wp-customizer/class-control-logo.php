@@ -12,10 +12,8 @@
 // Exit if accessed directly.
 defined( 'WPINC' ) or die;
 
-// Do nothing if the WP_Customize_Image_Control class doesn't exist.
-if ( ! class_exists( 'WP_Customize_Image_Control' ) ) {
-	return;
-}
+// Check to make sure the WP_Customize_Image_Control class exists.
+if ( class_exists( 'WP_Customize_Image_Control' ) ) :
 
 /**
  * Customize Genesis Simple Logo Class
@@ -61,3 +59,5 @@ class Genesis_Simple_Logo_Image_Control extends WP_Customize_Image_Control {
 		}
 	}
 }
+
+endif; // End class exists check.
