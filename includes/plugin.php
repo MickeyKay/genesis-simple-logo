@@ -105,6 +105,7 @@ class Genesis_Simple_Logo {
 		if ( ! $this->is_genesis() ) {
 			return;
 		}
+		require_once( GENLOGO_DIR . 'includes/class-resize.php' );
 		require_once( GENLOGO_DIR . 'includes/functions.php' );
 		require_once( GENLOGO_DIR . 'includes/scripts.php' );
 		if ( is_admin() ) {

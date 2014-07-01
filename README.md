@@ -7,7 +7,7 @@ __Requires:__ Genesis 2.0, WordPress 3.9
 __Tested up to:__ Genesis 2.1, WordPress 3.9  
 __License:__ [GPL-2.0+](http://www.gnu.org/licenses/gpl-2.0.html)  
 
-A common issue with the Genesis Framework is that it's complicated for users to add their own logo. This plugin attempts to solve this problem by adding a Logo uploader to the WordPress customizer panel. The logo added is fully responsive and has been tested with most of the offical StudioPress themes.
+A common issue with the Genesis Framework is that it's complicated for users to add their own logo. This plugin attempts to solve this problem by adding a Logo uploader to the WordPress customizer panel. The logo added is fully responsive and has been tested with most of the official StudioPress themes.
 
 ## Features
 

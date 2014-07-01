@@ -79,6 +79,50 @@ function genlogo_get_data() {
 }
 
 /**
+ * Create a proportionally scaled version of the original Logo file.
+ *
+ * @return $image['url'] The URL of the resized image.
+ * @uses   genlogo_has_logo()
+ * @uses   genlogo_get_data()
+ * @uses   genlogo_is_customizer()
+ * @uses   Genesis_Simple_Logo_Resize
+ * @since  1.0.9
+ */
+function genlogo_resized_logo( $crop = false, $retina = false ) {
+	// Do nothing if the user hasn't added a logo.
+	if ( ! genlogo_has_logo() ) {
+		return;
+	}
+	$settings = genlogo_get_data();
+	if ( genlogo_is_customizer() ) {
+		return $settings['logo'];
+	}
+	$resize = Genesis_Simple_Logo_Resize::get_instance();
+
+	// Get the current size
+	$w  = $settings['width'];
+	$h = $settings['height'];
+	$original = preg_replace( '/(?:-)(?:[0-9]){2,4}(?:x)(?:[0-9]){2,4}/', '', $settings['logo'] );
+	// Get the dimensions of the current logo.
+	list( $width, $height, $type, $attr ) = getimagesize( $original );
+	// Calculate new size
+	if ( ( $w - $width ) > ( $h - $height ) ) { // use height
+		$size = $h / $height;
+		$new_width = round( $width * $size );
+		$new_height = round( $height * $size );
+	}
+	else { // Use width
+		$size  = $w / $width;
+		$new_width = round( $width * $size );
+		$new_height = round( $height * $size );
+	}
+
+	// Call the resizing function (returns an array)
+	$image = $resize->resize( $settings['logo'], $new_width, $new_height, $crop, $retina );
+	return $image['url'];
+}
+
+/**
  * Helper function to determine if the user has added any values to be displayed.
  *
  * @return bool returns true if we have data, false if we don't.
@@ -199,7 +243,6 @@ function genlogo_add_simple_logo_support() {
 		return;
 	}
 	add_theme_support( 'genesis-simple-logo' );
-	add_image_size( 'genesis-simple-logo', 500 );
 }
 
 add_action( 'after_setup_theme', 'genlogo_remove_custom_header_support', 20 );

@@ -24,6 +24,7 @@ function genlogo_head_css() {
 	if ( ! genlogo_has_logo() ) {
 		return;
 	}
+
 	$styles    = genlogo_get_data();
 	$formatted = genlogo_formatted_css( $styles );
 
@@ -34,8 +35,8 @@ function genlogo_head_css() {
 	}
 
 	//* Minify the CSS a bit.
-	$css = str_replace( "\t", '', $css );
-	$css = str_replace( array( "\n", "\r" ), ' ', $css );
+	//$css = str_replace( "\t", '', $css );
+	//$css = str_replace( array( "\n", "\r" ), ' ', $css );
 
 	//* Echo the CSS.
 	echo '<style type="text/css" media="screen">' . $css . '</style>';
@@ -123,7 +124,7 @@ function genlogo_html5_css( $styles, $formatted ) {
 	}
 
 	.header-image .site-header .site-title > a {
-		background-image: url('<?php echo esc_url( $styles['logo'] ); ?>');
+		background-image: url('<?php echo esc_url( genlogo_resized_logo() ); ?>');
 		background-repeat: no-repeat;
 		background-position: center;
 		-webkit-background-size: contain;
@@ -137,7 +138,7 @@ function genlogo_html5_css( $styles, $formatted ) {
 		only screen and (min-device-pixel-ratio: 1.5) {
 
 		.header-image .site-header .wrap {
-			background-image: url('<?php echo esc_url( $styles['logo'] ); ?>');
+			background-image: url('<?php echo esc_url( genlogo_resized_logo( false, true ) ); ?>');
 			background-size: contain;
 		}
 	}
