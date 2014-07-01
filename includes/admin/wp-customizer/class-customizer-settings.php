@@ -46,7 +46,7 @@ class Genesis_Simple_Logo_Customizer extends Genesis_Customizer_Base {
 		$wp_customize->add_setting(
 			$this->get_field_name( 'genlogo_logo' ),
 			array(
-				'default'    => $settings['genlogo_logo'],
+				'default'    => $settings['logo'],
 				'capability' => 'edit_theme_options',
 				'type'       => 'option',
 			)
@@ -157,7 +157,7 @@ class Genesis_Simple_Logo_Customizer extends Genesis_Customizer_Base {
 		$wp_customize->add_setting(
 			$this->get_field_name( 'genlogo_center_logo' ),
 			array(
-				'default'    => $settings['genlogo_center_logo'],
+				'default'    => $settings['center'],
 				'capability' => 'edit_theme_options',
 				'type'       => 'option',
 			)
