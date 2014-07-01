@@ -12,8 +12,11 @@
 // Exit if accessed directly.
 defined( 'WPINC' ) or die;
 
+// Make sure the Genesis Customizer Base class exists before extending it.
+if ( class_exists( 'Genesis_Customizer_Base' ) ) :
+
 /**
- *
+ * Genesis Simple Logo Customizer Class
  */
 class Genesis_Simple_Logo_Customizer extends Genesis_Customizer_Base {
 
@@ -183,3 +186,5 @@ class Genesis_Simple_Logo_Customizer extends Genesis_Customizer_Base {
 	}
 
 }
+
+endif; // End class exists check.
