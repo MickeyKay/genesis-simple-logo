@@ -136,7 +136,7 @@ function genlogo_html5_css( $styles, $formatted ) {
 		only screen and (-o-min-device-pixel-ratio: 3/2),
 		only screen and (min-device-pixel-ratio: 1.5) {
 
-		.header-image .site-header .wrap {
+		.header-image .site-header .site-title > a {
 			background-image: url('<?php echo esc_url( $styles['logo'] ); ?>');
 			background-size: contain;
 		}
